@@ -11,10 +11,6 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
-require 'rspec/rails'
-require 'factory_girl_rails'
-require 'webmock/rspec'
-require 'vcr'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -42,7 +38,7 @@ TestAfterCommit.enabled = false
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path               = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -56,6 +52,13 @@ VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
   c.hook_into :webmock
   c.allow_http_connections_when_no_cassette = false
-  c.default_cassette_options = {match_requests_on: [:method, :uri, :headers, :body]}
+  c.default_cassette_options = { match_requests_on: [:method, :uri, :headers, :body] }
   c.configure_rspec_metadata!
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end
