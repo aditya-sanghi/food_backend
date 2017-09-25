@@ -13,5 +13,23 @@ RSpec.describe Booking, type: :model do
                                     originAddress, destinationAddress)
       expect(booking.foodItemName).to eq("martabak")
     end
+
+    it 'should cancel booking' do
+      booking = described_class.new(originLatLong, destinationLatLong, foodItemName,
+                                    originAddress, destinationAddress)
+      expect(booking.status).to eq("cancelled")
+    end
+
+    it 'should pickup booking' do
+      booking = described_class.new(originLatLong, destinationLatLong, foodItemName,
+                                    originAddress, destinationAddress)
+      expect(booking.status).to eq("picked up")
+    end
+
+    it 'should complete booking' do
+      booking = described_class.new(originLatLong, destinationLatLong, foodItemName,
+                                    originAddress, destinationAddress)
+      expect(booking.status).to eq("completed")
+    end
   end
 end
